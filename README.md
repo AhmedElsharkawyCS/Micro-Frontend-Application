@@ -9,8 +9,10 @@
 - isolate every single app
 - use webpack module federation and shared dependencies between multiple applications
 - link multiple apps together
-- Create CI/CD pipeline and deploy to AWS
+- configure webpack for production build
 - configure AWS `S3`,`CloudFront`
+- Create CI/CD pipeline and deploy to AWS
+- fix AWS CloudFront invalidation issue
 - handling CSS in the whole micro-frontend (css class collision issue) when we use same css-in-js lib
 
 ## `Library & modules`

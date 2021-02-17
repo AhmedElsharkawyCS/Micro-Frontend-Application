@@ -6,7 +6,7 @@ import Landing from "./components/Landing";
 import Pricing from "./components/Pricing";
 
 //to fix class name collision issue
-const generateClassName = createGenerateClassName({ productionPrefix: "ma" });
+const generateClassName = createGenerateClassName({ productionPrefix: "ma-a" });
 export default () => {
   return (
     <div>

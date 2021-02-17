@@ -5,18 +5,16 @@ import MarketingApp from "./components/MarketingApp";
 import Header from "./components/Header";
 
 //to fix class name collision issue
-const generateClassName = createGenerateClassName({ productionPrefix: "ca" });
+const generateClassName = createGenerateClassName({ productionPrefix: "co-a" });
 export default function App() {
   return (
-    <div>
+    <BrowserRouter>
       <StylesProvider generateClassName={generateClassName}>
-        <BrowserRouter>
-          <div>
-            <Header />
-            <MarketingApp />
-          </div>
-        </BrowserRouter>
+        <div>
+          <Header />
+          <MarketingApp />
+        </div>
       </StylesProvider>
-    </div>
+    </BrowserRouter>
   );
 }
