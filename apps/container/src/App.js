@@ -1,12 +1,18 @@
-import React from "react";
-import { BrowserRouter } from "react-router-dom";
-import { createGenerateClassName, StylesProvider } from "@material-ui/core/styles";
-import MarketingApp from "./components/MarketingApp";
-import Header from "./components/Header";
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import {
+  StylesProvider,
+  createGenerateClassName,
+} from '@material-ui/core/styles';
 
-//to fix class name collision issue
-const generateClassName = createGenerateClassName({ productionPrefix: "co-a" });
-export default function App() {
+import MarketingApp from './components/MarketingApp';
+import Header from './components/Header';
+
+const generateClassName = createGenerateClassName({
+  productionPrefix: 'co',
+});
+
+export default () => {
   return (
     <BrowserRouter>
       <StylesProvider generateClassName={generateClassName}>
@@ -17,4 +23,4 @@ export default function App() {
       </StylesProvider>
     </BrowserRouter>
   );
-}
+};
