@@ -15,6 +15,7 @@
 - fix AWS CloudFront invalidation issue
 - handling CSS in the whole micro-frontend (css class collision issue) when we use same css-in-js lib
 - implementing multi-tier navigation and handle route between micro-frontend
+- fix webpack publicPath issue with development mode
 
 ## `Library & modules`
 
