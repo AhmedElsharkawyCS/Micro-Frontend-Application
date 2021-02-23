@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -10,13 +10,14 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Copyright() {
   return (
     <Typography variant='body2' color='textSecondary' align='center'>
       {"Copyright © "}
-      <Link to='/'>Your Website</Link> {new Date().getFullYear()}
+      <Link to='/'> Made by Sharkawy</Link> {new Date().getFullYear()}
       {"."}
     </Typography>
   );
@@ -47,8 +48,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp({ onSignIn }) {
+export default function SignUp() {
   const classes = useStyles();
+  const history = useHistory();
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
+  const [allowExtraEmails, setAllowExtraEmails] = useState(false);
+  const [allowSaveData, setAllowSaveData] = useState(false);
+  const handleUserSingUp = () => {
+    const user = { password, email, fname, lname, allowExtraEmails, allowSaveData };
+    if (Object.values(user).filter(Boolean).length < 6) return toast.error("Please complete the form.");
+    localStorage.setItem("auth-user", JSON.stringify(user));
+    toast.success("Successfully registered!");
+    setTimeout(() => {
+      history.push("/auth/signin");
+    }, 2000);
+  };
 
   return (
     <Container component='main' maxWidth='xs'>
@@ -59,19 +76,52 @@ export default function SignUp({ onSignIn }) {
         <Typography component='h1' variant='h5'>
           Sign up
         </Typography>
-        <form onSubmit={(e) => e.preventDefault()} className={classes.form} noValidate>
+        <form onSubmit={(e) => e.preventDefault()} className={classes.form}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextField autoComplete='fname' name='firstName' variant='outlined' required fullWidth id='firstName' label='First Name' autoFocus />
+              <TextField
+                value={fname}
+                onChange={({ target }) => setFname(target.value)}
+                autoComplete='firstName'
+                name='firstName'
+                variant='outlined'
+                required
+                fullWidth
+                id='firstName'
+                label='First Name'
+                autoFocus
+              />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField variant='outlined' required fullWidth id='lastName' label='Last Name' name='lastName' autoComplete='lname' />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField variant='outlined' required fullWidth id='email' label='Email Address' name='email' autoComplete='email' />
+              <TextField
+                value={lname}
+                onChange={({ target }) => setLname(target.value)}
+                variant='outlined'
+                required
+                fullWidth
+                id='lastName'
+                label='Last Name'
+                name='lastName'
+                autoComplete='lastName'
+              />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                value={email}
+                onChange={({ target }) => setEmail(target.value)}
+                variant='outlined'
+                required
+                fullWidth
+                id='email'
+                label='Email Address'
+                name='email'
+                autoComplete='email'
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                value={password}
+                onChange={({ target }) => setPassword(target.value)}
                 variant='outlined'
                 required
                 fullWidth
@@ -84,12 +134,20 @@ export default function SignUp({ onSignIn }) {
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
-                control={<Checkbox value='allowExtraEmails' color='primary' />}
+                control={
+                  <Checkbox value={allowExtraEmails} onChange={({ target }) => setAllowExtraEmails(target.checked)} color='primary' required />
+                }
                 label='I want to receive inspiration, marketing promotions and updates via email.'
               />
             </Grid>
+            <Grid item xs={12}>
+              <FormControlLabel
+                control={<Checkbox value={allowSaveData} onChange={({ target }) => setAllowSaveData(target.checked)} color='primary' required />}
+                label='We will save your information inside your browser local storage until singing out.'
+              />
+            </Grid>
           </Grid>
-          <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit} onClick={onSignIn}>
+          <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit} onClick={handleUserSingUp}>
             Sign Up
           </Button>
           <Grid container justify='flex-end'>

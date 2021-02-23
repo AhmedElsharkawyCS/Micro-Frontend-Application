@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -11,13 +11,14 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Copyright() {
   return (
     <Typography variant='body2' color='textSecondary' align='center'>
       {"Copyright © "}
       <Link color='inherit' to='/'>
-        Your Website
+        Made by Sharkawy
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -50,9 +51,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn({ onSignIn }) {
+export default function SignIn({ onAuth }) {
   const classes = useStyles();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
+  const handleUserSingIn = () => {
+    const localUserObject = localStorage.getItem("auth-user");
+    if (!localUserObject) return toast.error("User not exist. Try to register");
+    try {
+      const user = JSON.parse(localUserObject);
+      if (email !== user.email || password !== user.password) return toast.error("Invalid user credentials!");
+      onAuth(user);
+    } catch (error) {
+      console.error(JSON.stringify({ error }));
+      return toast.error("User not exist. Register and try again!");
+    }
+  };
   return (
     <Container component='main' maxWidth='xs'>
       <div className={classes.paper}>
@@ -62,31 +77,31 @@ export default function SignIn({ onSignIn }) {
         <Typography component='h1' variant='h5'>
           Sign in
         </Typography>
-        <form onSubmit={(e) => e.preventDefault()} className={classes.form} noValidate>
+        <form onSubmit={(e) => e.preventDefault()} className={classes.form}>
           <TextField
-            variant='outlined'
-            margin='normal'
-            required
-            fullWidth
             id='email'
             label='Email Address'
-            name='email'
-            autoComplete='email'
-            autoFocus
-          />
-          <TextField
             variant='outlined'
             margin='normal'
-            required
+            autoFocus
             fullWidth
-            name='password'
+            required
+            value={email}
+            onChange={({ target }) => setEmail(target.value)}
+          />
+          <TextField
             label='Password'
             type='password'
             id='password'
-            autoComplete='current-password'
+            variant='outlined'
+            autoFocus
+            fullWidth
+            required
+            value={password}
+            onChange={({ target }) => setPassword(target.value)}
           />
           <FormControlLabel control={<Checkbox value='remember' color='primary' />} label='Remember me' />
-          <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit} onClick={onSignIn}>
+          <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit} onClick={handleUserSingIn}>
             Sign In
           </Button>
           <Grid container>
