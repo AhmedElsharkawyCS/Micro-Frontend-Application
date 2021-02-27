@@ -19,11 +19,15 @@ export default () => {
   const handleUserAuth = (user) => {
     setAuth({ isAuthenticated: true, user });
   };
+  const handleLogOut = () => {
+    localStorage.clear();
+    setAuth({ isAuthenticated: false, user: {} });
+  };
   return (
     <BrowserRouter>
       <StylesProvider generateClassName={generateClassName}>
         <div>
-          <Header />
+          <Header isAuthenticated={auth.isAuthenticated} handleLogOut={handleLogOut} />
           <Suspense fallback={<Loading />}>
             <Switch>
               <Route path='/auth' render={(props) => <AuthApp {...props} onAuth={handleUserAuth} />} />
