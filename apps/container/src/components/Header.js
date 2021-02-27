@@ -62,21 +62,37 @@ export default function Header({ isAuthenticated, onSignOut }) {
 
   return (
     <React.Fragment>
-      <AppBar position='static' color='default' elevation={0} className={classes.appBar}>
+      <AppBar position='fixed' color='default' elevation={1} className={classes.appBar} dir='auto'>
         <Toolbar className={classes.toolbar}>
-          <Typography variant='h6' color='inherit' noWrap component={RouterLink} to='/'>
-            App
+          <Typography variant='h6' color='inherit' noWrap component={RouterLink} to='/' title={"Home Page"}>
+            Home
           </Typography>
-          <Button
-            color='primary'
-            variant='outlined'
-            className={classes.link}
-            component={RouterLink}
-            to={isAuthenticated ? "/" : "/auth/signin"}
-            onClick={onClick}
-          >
-            {isAuthenticated ? "Logout & Remove Account" : "Login"}
-          </Button>
+          <div>
+            {isAuthenticated && (
+              <Button
+                color='primary'
+                title={"Go To Main Dashboard"}
+                variant='contained'
+                className={classes.link}
+                component={RouterLink}
+                to={"/dashboard"}
+              >
+                {"Dashboard"}
+              </Button>
+            )}
+            <button style={{ visibility: "hidden" }}>{"s"}</button>
+            <Button
+              color='secondary'
+              variant='contained'
+              title={"Logout and remove your account account"}
+              className={classes.link}
+              component={RouterLink}
+              to={isAuthenticated ? "/" : "/auth/signin"}
+              onClick={onClick}
+            >
+              {isAuthenticated ? "Logout" : "Login"}
+            </Button>
+          </div>
         </Toolbar>
       </AppBar>
     </React.Fragment>

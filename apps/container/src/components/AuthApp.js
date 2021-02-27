@@ -2,7 +2,7 @@ import { mount } from "auth/AuthApp";
 import React, { useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-export default ({ onAuth }) => {
+export default ({ onAuth, isAuthenticated }) => {
   const ref = useRef(null);
   const history = useHistory();
 
@@ -17,6 +17,7 @@ export default ({ onAuth }) => {
         }
       },
       onAuth: (user) => onAuth(user),
+      isAuthenticated,
     });
 
     history.listen(onParentNavigate);

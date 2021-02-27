@@ -10,12 +10,9 @@ const generateClassName = createGenerateClassName({
   productionPrefix: "au",
 });
 
-export default ({ history, onAuth }) => {
+export default ({ history, onAuth, isAuthenticated }) => {
   const checkUserAuth = () => {
-    try {
-      const user = JSON.parse(localStorage.getItem("auth-user"));
-      if (user) history.push("/");
-    } catch (error) {}
+    if (!isAuthenticated) history.push("/");
   };
   useEffect(() => {
     checkUserAuth();
