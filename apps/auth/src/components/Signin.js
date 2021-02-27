@@ -10,7 +10,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function Copyright() {
@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn({ onAuth }) {
   const classes = useStyles();
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -64,6 +65,7 @@ export default function SignIn({ onAuth }) {
       const user = JSON.parse(localUserObject);
       if (email !== user.email || password !== user.password) return toast.error("Invalid user credentials!");
       onAuth(user);
+      history.push("/");
     } catch (error) {
       console.error(JSON.stringify({ error }));
       return toast.error("User not exist. Register and try again!");
