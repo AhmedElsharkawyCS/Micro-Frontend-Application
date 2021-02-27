@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Switch, Route, Router } from "react-router-dom";
 import { StylesProvider, createGenerateClassName } from "@material-ui/core/styles";
 import { ToastContainer } from "react-toastify";
@@ -11,6 +11,16 @@ const generateClassName = createGenerateClassName({
 });
 
 export default ({ history, onAuth }) => {
+  const checkUserAuth = () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("auth-user"));
+      if (user) history.push("/");
+    } catch (error) {}
+  };
+  useEffect(() => {
+    checkUserAuth();
+  }, []);
+
   return (
     <div>
       <StylesProvider generateClassName={generateClassName}>

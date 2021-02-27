@@ -16,10 +16,7 @@ export default ({ onAuth }) => {
           history.push(nextPathname);
         }
       },
-      onAuth: (user) => {
-        if (!user) return alert("auth user is empty!");
-        onAuth(user);
-      },
+      onAuth: (user) => onAuth(user),
     });
 
     history.listen(onParentNavigate);

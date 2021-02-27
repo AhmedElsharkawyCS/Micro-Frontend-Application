@@ -1,11 +1,12 @@
-import React, { lazy, Suspense, useState } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import React, { lazy, Suspense, useEffect, useState } from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { StylesProvider, createGenerateClassName } from "@material-ui/core/styles";
-import Header from "./components/Header";
-import Loading from "./components/Loading";
 
-const MarketingApp = lazy(() => import("./components/MarketingApp"));
-const AuthApp = lazy(() => import("./components/AuthApp"));
+import Progress from "./components/Progress";
+import Header from "./components/Header";
+
+const MarketingLazy = lazy(() => import("./components/MarketingApp"));
+const AuthLazy = lazy(() => import("./components/AuthApp"));
 
 const generateClassName = createGenerateClassName({
   productionPrefix: "co",
@@ -23,15 +24,30 @@ export default () => {
     localStorage.clear();
     setAuth({ isAuthenticated: false, user: {} });
   };
+  const checkUserAuth = () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("auth-user"));
+      if (user) setAuth({ isAuthenticated: true, user });
+    } catch (error) {
+      setAuth({ isAuthenticated: true, user });
+    }
+  };
+
+  useEffect(() => {
+    checkUserAuth();
+  }, []);
+
   return (
     <BrowserRouter>
       <StylesProvider generateClassName={generateClassName}>
         <div>
-          <Header isAuthenticated={auth.isAuthenticated} handleLogOut={handleLogOut} />
-          <Suspense fallback={<Loading />}>
+          <Header onSignOut={handleLogOut} isAuthenticated={auth.isAuthenticated} />
+          <Suspense fallback={<Progress />}>
             <Switch>
-              <Route path='/auth' render={(props) => <AuthApp {...props} onAuth={handleUserAuth} />} />
-              <Route path='/' component={MarketingApp} />
+              <Route path='/auth'>
+                <AuthLazy onAuth={handleUserAuth} />
+              </Route>
+              <Route path='/' component={MarketingLazy} />
             </Switch>
           </Suspense>
         </div>

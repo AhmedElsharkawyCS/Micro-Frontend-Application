@@ -51,12 +51,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header({ isAuthenticated, handleLogOut }) {
+export default function Header({ isAuthenticated, onSignOut }) {
   const classes = useStyles();
 
   const onClick = () => {
-    if (isAuthenticated && handleLogOut) {
-      handleLogOut();
+    if (isAuthenticated && onSignOut) {
+      onSignOut();
     }
   };
 
@@ -75,7 +75,7 @@ export default function Header({ isAuthenticated, handleLogOut }) {
             to={isAuthenticated ? "/" : "/auth/signin"}
             onClick={onClick}
           >
-            {isAuthenticated ? "Logout" : "Login"}
+            {isAuthenticated ? "Logout & Remove Account" : "Login"}
           </Button>
         </Toolbar>
       </AppBar>
