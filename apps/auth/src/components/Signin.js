@@ -67,7 +67,7 @@ export default function SignIn({ onAuth }) {
       onAuth(user);
       history.push("/");
     } catch (error) {
-      console.error(JSON.stringify({ error }));
+      console.error("parsing error", error);
       return toast.error("User not exist. Register and try again!");
     }
   };
