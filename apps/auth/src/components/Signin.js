@@ -57,6 +57,7 @@ export default function SignIn({ onAuth }) {
   const [password, setPassword] = useState("");
 
   const handleUserSingIn = () => {
+    if (!email || !password) return toast.error("Please complete the form.");
     const localUserObject = localStorage.getItem("auth-user");
     if (!localUserObject) return toast.error("User not exist. Try to register");
     try {
