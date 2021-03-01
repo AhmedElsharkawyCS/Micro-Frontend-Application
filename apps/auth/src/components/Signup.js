@@ -17,7 +17,7 @@ function Copyright() {
   return (
     <Typography variant='body2' color='textSecondary' align='center'>
       {"Copyright © "}
-      <Link to='/'> Made by Sharkawy</Link> {new Date().getFullYear()}
+      <Link to='https://www.linkedin.com/in/ahmed-elsharkawy-3684a5140/'> Made by A.Sharkawy</Link> {new Date().getFullYear()}
       {"."}
     </Typography>
   );
