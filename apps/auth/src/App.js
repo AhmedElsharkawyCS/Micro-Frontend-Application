@@ -12,7 +12,7 @@ const generateClassName = createGenerateClassName({
 
 export default ({ history, onAuth, isAuthenticated }) => {
   const checkUserAuth = () => {
-    if (!isAuthenticated) history.push("/");
+    if (isAuthenticated) history.push("/");
   };
   useEffect(() => {
     checkUserAuth();
