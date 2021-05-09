@@ -10,7 +10,6 @@ const mount = (el, { onNavigate, defaultHistory, initialPath, onAuth, isAuthenti
     history.listen(onNavigate);
   }
   ReactDOM.render(<App history={history} onAuth={onAuth} isAuthenticated={isAuthenticated} />, el);
-
   return {
     onParentNavigate({ pathname: nextPathname }) {
       const { pathname } = history.location;

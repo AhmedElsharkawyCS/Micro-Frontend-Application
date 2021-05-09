@@ -15,7 +15,6 @@ const generateClassName = createGenerateClassName({
 });
 
 const history = createBrowserHistory();
-
 export default () => {
   const [auth, setAuth] = useState({
     isAuthenticated: false,
@@ -36,7 +35,6 @@ export default () => {
       setAuth({ isAuthenticated: false, user: {} });
     }
   };
-
   useEffect(() => {
     checkUserAuth();
   }, []);
